@@ -1,0 +1,23 @@
+<div *ngIf="cotizaciones">
+  <div *ngFor="let cotizacionKey of cotizacionesKeys">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-text">ID: {{ cotizacionKey }}</p>
+        <h5 class="card-title">{{ cotizaciones[cotizacionKey].data.nombre }}</h5>
+        <p class="card-text">Estado: {{ cotizaciones[cotizacionKey].data.estado }}</p>
+        <p class="card-text">Descripción: {{ cotizaciones[cotizacionKey].data.descripcionProblema }}</p>
+        <p class="card-text">Modelo de Teléfono: {{ cotizaciones[cotizacionKey].data.modeloTelefono }}</p>
+        <p class="card-text">Número de Contacto: {{ cotizaciones[cotizacionKey].data.telefono }}</p>
+
+        <!-- Edit button -->
+        <button class="btn btn-primary" (click)="editCotizacion(cotizacionKey)">Editar</button>
+
+        <!-- Delete button -->
+        <button class="btn btn-danger" (click)="deleteCotizacion(cotizacionKey)">Borrar</button>
+
+        <!-- Change state button -->
+        <button class="btn btn-warning" (click)="changeStateCotizacion(cotizacionKey)">Cambiar Estado</button>
+      </div>
+    </div>
+  </div>
+</div>
