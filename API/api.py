@@ -53,7 +53,7 @@ def login():
         id = firebase_admin.auth.get_user_by_email(email).uid
         return jsonify({"status": "success", "message": "Usuario logueado exitosamente", "id": id})
     except Exception as e:
-        return jsonify({"status": "error", "message": str(e.args[0].response.json()['error']['message'])})
+        return jsonify({"status": "error", "message": 'Errors'})
 
 @app.route('/data/add_cotizacion', methods=['POST'])
 def add_cotizacion():
