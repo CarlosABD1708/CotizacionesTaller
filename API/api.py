@@ -17,7 +17,7 @@ config = {
   "measurementId": "G-HYEM2LQ2GB"
 }
 
-cred = credentials.Certificate("cotizador-8805c-firebase-adminsdk-nqno7-543cbe083c.json")
+cred = credentials.Certificate("clave.json")
 firebase_admin.initialize_app(cred)
 
 firebase = pyrebase.initialize_app(config)

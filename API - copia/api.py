@@ -18,7 +18,7 @@ config = {
   "measurementId": "G-HYEM2LQ2GB"
 }
 
-cred = credentials.Certificate("cotizador-8805c-firebase-adminsdk-nqno7-543cbe083c.json")
+cred = credentials.Certificate("clave.json")
 firebase_admin.initialize_app(cred)
 
 firebase = pyrebase.initialize_app(config)
@@ -63,6 +63,7 @@ def add_cotizacion():
         cotizacion = data['datos']
         id_cliente = data['id']
 
+        
         # Genera un nuevo ID único para la cotización
         id_cotizacion = str(random.randint(1, 1000000000))
 
@@ -73,10 +74,12 @@ def add_cotizacion():
         if not user_ref.get().exists:
             # Si no existe, crea el documento con el campo 'cotizaciones'
             user_ref.set({'cotizaciones': {}})
-
+    
+       # cotizacion.append({'favorito' : False})
+          
         # Actualiza el campo 'cotizaciones' con la nueva cotización
         user_ref.update({
-            f'cotizaciones.{id_cotizacion}': {'data': cotizacion, 'historial' : []} 
+            f'cotizaciones.{id_cotizacion}': {'data': cotizacion, 'historial' : [], 'favorito' : False} 
         })
 
         return jsonify({"status": "success", "message": "Cotizacion agregada exitosamente", "cotizacion_id": id_cotizacion})
@@ -84,7 +87,7 @@ def add_cotizacion():
         return jsonify({"status": "error", "message": str(e)})
     
 
-@app.route('/data/add_fav',methods=['PUT'])
+@app.route('/data/add_fav', methods=['PUT'])
 def add_fav():
     id = request.args.get('id')
     cotizacion = request.args.get('id_cotizacion')
@@ -93,17 +96,24 @@ def add_fav():
     doc = ref.get()
 
     if doc.exists:
-        favoritos = doc.to_dict().get('favoritos',[])
+        favoritos = doc.to_dict().get('favoritos', [])
     else:
-        return ({'message': 'Error'})
-    
-    favoritos.append(cotizacion)
+        return {'message': 'Error: Usuario no encontrado'}
 
+    if cotizacion not in favoritos:
+        favoritos.append(cotizacion)
+    
+    # Actualizar la lista de favoritos
     ref.update({
-        'favoritos' : favoritos
+        'favoritos': favoritos
     })
 
-    return ({'message': 'Exito'})
+    # Actualizar la propiedad 'favorito' para la cotización sin sobrescribir el documento
+    ref.update({
+        f'cotizaciones.{cotizacion}.favorito': True
+    })
+
+    return {'message': 'Éxito'}
 
 @app.route('/data/show_fav',methods=['GET'])
 def show_fav():
@@ -161,17 +171,23 @@ def delete_fav():
     doc = ref.get()
 
     if doc.exists:
-        favoritos = doc.to_dict().get('favoritos',[])
+        favoritos = doc.to_dict().get('favoritos', [])
     else:
-        return ({'message': 'Error'})
-    
-    favoritos.remove(cotizacion)
+        return {'message': 'Error: Usuario no encontrado'}
 
+    favoritos.remove(cotizacion)
+    
+    # Actualizar la lista de favoritos
     ref.update({
-        'favoritos' : favoritos
+        'favoritos': favoritos
     })
 
-    return ({'message': 'Exito'})
+    # Actualizar la propiedad 'favorito' para la cotización sin sobrescribir el documento
+    ref.update({
+        f'cotizaciones.{cotizacion}.favorito': False    
+    })
+
+    return {'message': 'Éxito'}
 
 @app.route('/data/editar_estado', methods=['PUT'])
 def editar_estado():

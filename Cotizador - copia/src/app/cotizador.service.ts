@@ -51,29 +51,5 @@ export class CotizadorService {
 
   }
 
-  get_historial_cotizacion(id_cotizacion: string | undefined): Observable<any> {
-    const id_usuario = localStorage.getItem('id');
-    const url = this.baseUrl + `show_cotizaciones_historial?id=${id_usuario}&cotizacion=${id_cotizacion}`;
-    return this.http.get(url);
-  }
-
-  get_favs(): Observable<any> {
-    const id_usuario = localStorage.getItem('id');
-    const url = this.baseUrl + `show_fav?id=${id_usuario}`;
-    return this.http.get(url);  
-  }
-
-  addFav(id_cotizacion: string) {
-    const id_usuario = localStorage.getItem('id');
-    const url = this.baseUrl + `add_fav?id=${id_usuario}&id_cotizacion=${id_cotizacion}`;
-    return this.http.put(url, []);
-  }
-
-  deleteFav(id_cotizacion: string) {
-    const id_usuario = localStorage.getItem('id');
-    const url = this.baseUrl + `delete_fav?id=${id_usuario}&id_cotizacion=${id_cotizacion}`;
-    return this.http.delete(url);
-  }
-
-
- }
+  get_historial_cotizacion(id_cotizacion: string | undefined,)
+}

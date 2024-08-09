@@ -57,17 +57,7 @@ export class TrabajosPendientesComponent {
   }
   
   
-  addFav(id_cotizacion: string) {
-    this.cotizador.addFav(id_cotizacion).subscribe();
-    this.router.navigate(['/principal']);
-
-  }
   
-  deleteFav(id_cotizacion: string) {
-    this.cotizador.deleteFav(id_cotizacion).subscribe();
-    this.router.navigate(['/principal']);
-
-  }
   
   getObjectValues(obj: any): any[] {
     return Object.values(obj);
@@ -81,17 +71,6 @@ export class TrabajosPendientesComponent {
     // Navegar al nuevo componente y pasar la cotizacionKey y los datos
     this.router.navigate(['/edit_cotizacion'], {
       queryParams: { cotizacionKey: cotizacionKey, ...cotizacionData }
-    });
-    
-    this.ngOnDestroy();
-  }
-
-    // Add these methods to your component class
-  showHistory(cotizacionKey: string) {
-
-    // Navegar al nuevo componente y pasar la cotizacionKey y los datos
-    this.router.navigate(['/viewHistory'], {
-      queryParams: { id_cotizacion: cotizacionKey}
     });
     
     this.ngOnDestroy();

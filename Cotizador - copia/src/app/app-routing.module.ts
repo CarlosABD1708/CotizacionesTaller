@@ -6,7 +6,6 @@ import { HomeComponent } from './home/home.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { CotizacionComponent } from './cotizacion/cotizacion.component';
 import { EditarCotizacionComponent } from './editar-cotizacion/editar-cotizacion.component';
-import { HistorialComponent } from './historial/historial.component';
 
 
 const routes: Routes = [
@@ -15,8 +14,7 @@ const routes: Routes = [
   { path: 'home',component: HomeComponent },
   { path: 'principal',component: PrincipalComponent},
   { path: 'add_cotizacion',component: CotizacionComponent },
-  { path: 'edit_cotizacion', component: EditarCotizacionComponent },
-  { path: 'viewHistory',component: HistorialComponent}
+  { path: 'edit_cotizacion',component: EditarCotizacionComponent}
 ];
 
 @NgModule({
