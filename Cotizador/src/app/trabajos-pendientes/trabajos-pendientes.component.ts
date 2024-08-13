@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { CotizadorService } from '../cotizador.service';
-import { Route, Router } from '@angular/router';
+import { NavigationEnd, Route, Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
+import { RealtimeService } from '../realtime.service';
 
 
 @Component({
@@ -12,63 +13,113 @@ import { Subscription } from 'rxjs';
 })
 export class TrabajosPendientesComponent {
   cotizacionesKeys!: string[];
-  constructor(private cotizador: CotizadorService,private router: Router,private route: ActivatedRoute){}
+  constructor(private cotizador: CotizadorService,private router: Router,private realtime: RealtimeService){}
   id_usario = localStorage.getItem('id');
   cotizaciones: any;
   @Input() estado: string | undefined;
-  private cotizacionesSubscription: Subscription = new Subscription;
+  
+  private cotizacionesSubscription: Subscription | undefined;
+  
   ngOnInit() {
-    this.showCotizaciones();
-  }
+     if (this.cotizacionesSubscription) {
+      this.cotizacionesSubscription.unsubscribe();
+    } 
+    // this.showCotizaciones();
+    this.realtime.cargarCotizaciones();
 
-  ngAfterViewInit(){
-    this.showCotizaciones();
-  } 
-
-  showCotizaciones() {
-    const idUsuario = localStorage.getItem('id');
-  
-    this.cotizador.show_cotizaciones(idUsuario?.toString()).subscribe(
-      data => {
-        // Asignar las cotizaciones directamente, sin filtrar
-        this.cotizaciones = data.cotizaciones;
-        // Filtrar las cotizaciones según el estado si existe
-        if (this.estado) {
-          const cotizacionesFiltradas: any = {};
+    this.cotizacionesSubscription = this.realtime.cotizacionesData$.subscribe((data) => {
+        
+      this.cotizaciones = data.cotizaciones;
+      // Filtrar las cotizaciones según el estado si existe
+      // if (this.estado) {
+        const cotizacionesFiltradas: any = {};
           
-          Object.keys(this.cotizaciones).forEach(cotizacionKey => {
-            const cotizacion = this.cotizaciones[cotizacionKey];
-            if (cotizacion.data.estado === this.estado) {
-              cotizacionesFiltradas[cotizacionKey] = cotizacion;
-            }
-          });
+        Object.keys(this.cotizaciones).forEach(cotizacionKey => {
+          const cotizacion = this.cotizaciones[cotizacionKey];
+          // if (cotizacion.data.archivado === false) {
+          if (!this.cotizaciones[cotizacionKey].archivado) {
+            cotizacionesFiltradas[cotizacionKey] = cotizacion;
+          }
+            
+          
+        });
   
-          // Asignar las cotizaciones filtradas
-          this.cotizaciones = cotizacionesFiltradas;
-        }
+        // Asignar las cotizaciones filtradas
+        this.cotizaciones = cotizacionesFiltradas;
+      
   
-        // Obtener las claves después de asignar las cotizaciones
-        this.cotizacionesKeys = Object.keys(this.cotizaciones);
-      },
-      error => {
+      // Obtener las claves después de asignar las cotizaciones
+      this.cotizacionesKeys = Object.keys(this.cotizaciones);
+    },
+    error => {
         console.error('Error al obtener las cotizaciones:', error);
-      }
-    );
+      });
+    // Suscribirse a cambios de ruta para recargar datos cuando se navega a la misma ruta
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+     
+    });
+    
+    
   }
+  
+  cargarDatos() {
+    this.realtime.cargarCotizaciones();
+  }
+
+
+  recargarPagina() {
+    const currentUrlWithExtras = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: false }).then(() => {
+      this.router.navigate([currentUrlWithExtras]);
+    });
+
+    this.cargarDatos();
+  }
+
+  // showCotizaciones() {
+  
+  //   this.cotizador.show_cotizaciones().subscribe(
+  
+  //   );
+  // }
   
   
   addFav(id_cotizacion: string) {
-    this.cotizador.addFav(id_cotizacion).subscribe();
-    this.router.navigate(['/principal']);
-
+    this.cotizador.add_attr(id_cotizacion,"favorito").subscribe();
+    // this.recargarPagina();
+    this.cotizaciones[id_cotizacion].favorito = true
+  
   }
   
   deleteFav(id_cotizacion: string) {
-    this.cotizador.deleteFav(id_cotizacion).subscribe();
-    this.router.navigate(['/principal']);
-
+    this.cotizador.delete_attr(id_cotizacion,"favorito").subscribe();
+    //  this.recargarPagina();
+    this.cotizaciones[id_cotizacion].favorito = false
+   
   }
   
+  addArchived(id_cotizacion: string) {
+    this.cotizador.add_attr(id_cotizacion,"archivado").subscribe();
+    // this.recargarPagina();
+    // this.showCotizaciones();
+    const subs = this.realtime.cotizacionesData$.subscribe(() => {
+      this.cotizaciones[id_cotizacion].archivado = true  
+      this.cargarDatos()
+    })
+    
+    
+  }
+  
+  deleteArchived(id_cotizacion: string) {
+    this.cotizador.delete_attr(id_cotizacion,"archivado").subscribe();
+    // this.recargarPagina();
+    this.cotizaciones[id_cotizacion].archivado = false
+    
+  }
+  
+
   getObjectValues(obj: any): any[] {
     return Object.values(obj);
   }
@@ -101,8 +152,7 @@ export class TrabajosPendientesComponent {
     // Implement your delete logic here
     console.log('Delete cotizacion with id:', cotizacionId);
     this.cotizador.delete_cotizacion(this.id_usario?.toString(),cotizacionId).subscribe();
-    this.ngOnDestroy();
-    this.router.navigate(['/principal'])
+    this.recargarPagina();
   }
 
   changeStateCotizacion(cotizacionId: string) {
@@ -112,7 +162,7 @@ export class TrabajosPendientesComponent {
     this.cotizador.edit_state_cotizacion(cotizacionId).subscribe(
       () => {
         // La solicitud HTTP se completó correctamente, ahora recargamos la página
-        this.ngOnDestroy();
+         this.recargarPagina();
       },
       error => {
         console.error('Error al cambiar el estado de la cotización:', error);
@@ -122,7 +172,9 @@ export class TrabajosPendientesComponent {
   }
 
   ngOnDestroy() {
-    this.showCotizaciones();
+     if (this.cotizacionesSubscription) {
+      this.cotizacionesSubscription.unsubscribe();
+    }
   }
   // Add this method to your component class
   getObjectKeys(obj: any): string[] {

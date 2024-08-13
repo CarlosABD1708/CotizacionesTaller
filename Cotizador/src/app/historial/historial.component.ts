@@ -3,6 +3,7 @@ import { CotizadorService } from '../cotizador.service';
 import { ActivatedRoute } from '@angular/router';
 
 
+
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.component.html',
@@ -15,7 +16,7 @@ export class HistorialComponent implements OnInit{
   cotizaciones: any;
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const id_cotizacion = params['id_cotizacion'];
+      const id_cotizacion = params['id_cotizacion'];  
       this.cotizador.get_historial_cotizacion(id_cotizacion).subscribe(response => {
         console.log(response);
         this.cotizaciones = response
@@ -23,7 +24,5 @@ export class HistorialComponent implements OnInit{
     });
   }
 
-
-  
 
 }

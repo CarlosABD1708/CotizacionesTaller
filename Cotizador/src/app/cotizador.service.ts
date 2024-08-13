@@ -19,8 +19,9 @@ export class CotizadorService {
     return this.http.post(this.baseUrl + 'add_cotizacion', data);
   }
 
-  show_cotizaciones(id_usuario: string | undefined): Observable<any> {
-    const url = this.baseUrl + `show_cotizaciones?id=${id_usuario}`;
+  show_cotizaciones(): Observable<any> {
+    const id = localStorage.getItem('id');
+    const url = this.baseUrl + `show_cotizaciones?id=${id}`;
     
     return this.http.get(url).pipe(
       catchError(error => {
@@ -57,21 +58,21 @@ export class CotizadorService {
     return this.http.get(url);
   }
 
-  get_favs(): Observable<any> {
+  get_attr(attr: string): Observable<any> {
     const id_usuario = localStorage.getItem('id');
-    const url = this.baseUrl + `show_fav?id=${id_usuario}`;
+    const url = this.baseUrl + `show_attr?id=${id_usuario}&attr=${attr}`;
     return this.http.get(url);  
   }
 
-  addFav(id_cotizacion: string) {
+  add_attr(id_cotizacion: string,attr: string) {
     const id_usuario = localStorage.getItem('id');
-    const url = this.baseUrl + `add_fav?id=${id_usuario}&id_cotizacion=${id_cotizacion}`;
+    const url = this.baseUrl + `add_attr?id=${id_usuario}&id_cotizacion=${id_cotizacion}&attr=${attr}`;
     return this.http.put(url, []);
   }
 
-  deleteFav(id_cotizacion: string) {
+  delete_attr(id_cotizacion: string,attr:string) {
     const id_usuario = localStorage.getItem('id');
-    const url = this.baseUrl + `delete_fav?id=${id_usuario}&id_cotizacion=${id_cotizacion}`;
+    const url = this.baseUrl + `delete_attr?id=${id_usuario}&id_cotizacion=${id_cotizacion}&attr=${attr}`;
     return this.http.delete(url);
   }
 
