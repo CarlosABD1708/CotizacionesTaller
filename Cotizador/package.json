@@ -19,7 +19,6 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
-    "boostrap": "^2.0.0",
     "bootstrap": "^5.3.3",
     "html2pdf.js": "^0.10.1",
     "jspdf": "^2.5.1",

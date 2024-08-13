@@ -287,4 +287,4 @@ import logging
 
 
 if __name__ == '__main__':
-    app.run(host='192.168.137.1',debug=True)
+    app.run(host='s',debug=True)
