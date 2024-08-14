@@ -7,6 +7,8 @@ import { PrincipalComponent } from './principal/principal.component';
 import { CotizacionComponent } from './cotizacion/cotizacion.component';
 import { EditarCotizacionComponent } from './editar-cotizacion/editar-cotizacion.component';
 import { HistorialComponent } from './historial/historial.component';
+import { FavsComponent } from './favs/favs.component';
+import { ArchivedComponent } from './archived/archived.component';
 
 
 const routes: Routes = [
@@ -16,7 +18,9 @@ const routes: Routes = [
   { path: 'principal',component: PrincipalComponent},
   { path: 'add_cotizacion',component: CotizacionComponent },
   { path: 'edit_cotizacion', component: EditarCotizacionComponent },
-  { path: 'viewHistory',component: HistorialComponent}
+  { path: 'viewHistory', component: HistorialComponent },
+  { path: 'favs', component: FavsComponent },
+  { path: 'archived', component: ArchivedComponent}
 ];
 
 @NgModule({

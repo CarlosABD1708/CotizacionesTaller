@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CotizadorService } from '../cotizador.service';
 import * as jsPDF from 'jspdf';
 import { Router } from '@angular/router';
@@ -8,10 +8,33 @@ import { Router } from '@angular/router';
   templateUrl: './cotizacion.component.html',
   styleUrls: ['./cotizacion.component.css']
 })
-export class CotizacionComponent {
+export class CotizacionComponent implements OnInit {
   constructor(private cotizador: CotizadorService,private router: Router) { }
   cotizacion: any = {};
+
   id_user: string | undefined = localStorage.getItem('id')?.toString();
+  
+  area: any = []
+  proyectos: any = []
+  responsables: any = []
+  estado: any = []
+  
+  ngOnInit(): void {
+    this.cotizador.get_catalogo('areas').subscribe((response) => {
+      this.area = response
+    })
+    this.cotizador.get_catalogo('proyectos').subscribe(response => {
+     this.proyectos = response
+    })
+    this.cotizador.get_catalogo('responsables').subscribe(response => {
+     this.responsables = response
+    })
+    this.cotizador.get_catalogo('estados').subscribe(response => {
+     this.estado = response
+    })
+
+  }
+
   agregarCotizacion() {
     console.log('Cotización Agregada:', this.cotizacion);
 

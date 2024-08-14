@@ -11,6 +11,11 @@ export class EditarCotizacionComponent {
   constructor(private route: ActivatedRoute,private cotizador: CotizadorService,private router: Router) { }
   cotizacion: any = {};
   id_cotizacion: string | undefined;
+
+  area: any = []
+  proyectos: any = []
+  responsables: any = []
+  estado: any = []
   ngOnInit() {
     // Obtener los parámetros de la URL
     this.route.queryParams.subscribe(params => {
@@ -19,6 +24,19 @@ export class EditarCotizacionComponent {
       this.cotizacion =  cotizacionData;
       this.id_cotizacion = cotizacionKey;
     });
+
+     this.cotizador.get_catalogo('areas').subscribe((response) => {
+      this.area = response
+    })
+    this.cotizador.get_catalogo('proyectos').subscribe(response => {
+     this.proyectos = response
+    })
+    this.cotizador.get_catalogo('responsables').subscribe(response => {
+     this.responsables = response
+    })
+    this.cotizador.get_catalogo('estados').subscribe(response => {
+     this.estado = response
+    })
   }
 
   editarCotizacion(id_cotizacion: string | undefined){

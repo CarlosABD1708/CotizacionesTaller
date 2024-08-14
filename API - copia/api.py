@@ -6,6 +6,7 @@ from firebase_admin import firestore, auth
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import random
+import logging
 
 config = {
   "apiKey": "AIzaSyDizVAt_otjXOvfFoQOFMVIF-SgsKr4_bU",
@@ -167,6 +168,16 @@ def show_cotizaciones_historial():
     historial = cotizaciones.get('historial', [])
     return jsonify(historial)
 
+@app.route('/data/show_cotizaciones_data', methods=['GET'])
+def show_cotizaciones_data():
+    id = request.args.get('id')
+    cotizacion = request.args.get('cotizacion')
+    ref = db.collection('usuarios').document(id)
+    data = ref.get()
+    snapshot = data.to_dict().get('cotizaciones',{})
+    cotizaciones = snapshot.get(cotizacion)
+    return jsonify(cotizaciones)
+
 @app.route('/data/show_cotizaciones', methods=['GET'])
 def show_cotizaciones():
     id = request.args.get('id')
@@ -282,9 +293,13 @@ def editar_estado():
     except Exception as e:
         return jsonify({'error': f'Error durante la actualización: {str(e)}'})
 
-import logging
-
-
+@app.route('/data/get_catalogo',methods=['GET'])
+def get_catalogo():
+    catalogo = request.args.get('catalogo')
+    ref = db.collection('catalogos').document(catalogo)
+    data = ref.get().to_dict()
+    return jsonify(data)
+    
 
 if __name__ == '__main__':
-    app.run(host='s',debug=True)
+    app.run(host='192.168.137.1',debug=True)

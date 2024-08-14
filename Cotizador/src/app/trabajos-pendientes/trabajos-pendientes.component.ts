@@ -21,9 +21,9 @@ export class TrabajosPendientesComponent {
   private cotizacionesSubscription: Subscription | undefined;
   
   ngOnInit() {
-     if (this.cotizacionesSubscription) {
-      this.cotizacionesSubscription.unsubscribe();
-    } 
+    //  if (this.cotizacionesSubscription) {
+    //   this.cotizacionesSubscription.unsubscribe();
+    // } 
     // this.showCotizaciones();
     this.realtime.cargarCotizaciones();
 
@@ -58,7 +58,7 @@ export class TrabajosPendientesComponent {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-     
+      this.cargarDatos();
     });
     
     
@@ -172,10 +172,11 @@ export class TrabajosPendientesComponent {
   }
 
   ngOnDestroy() {
-     if (this.cotizacionesSubscription) {
+    if (this.cotizacionesSubscription) {
       this.cotizacionesSubscription.unsubscribe();
     }
   }
+
   // Add this method to your component class
   getObjectKeys(obj: any): string[] {
     return Object.keys(obj);

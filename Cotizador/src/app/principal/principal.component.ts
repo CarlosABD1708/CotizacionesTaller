@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-principal',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./principal.component.css']
 })
 export class PrincipalComponent {
+
+  constructor(private route:Router){}
   seccionActual: string = '';
   valor_pendiente: string = 'Pendiente';
   valor_listo: string = 'Listo';
@@ -13,5 +16,9 @@ export class PrincipalComponent {
     this.seccionActual = estado;
     
 
+  }
+
+  changuePage(pagina: string) {
+    this.route.navigate(['/' + pagina])
   }
 }

@@ -12,7 +12,9 @@ import { PrincipalComponent } from './principal/principal.component';
 import { CotizacionComponent } from './cotizacion/cotizacion.component';
 import { TrabajosPendientesComponent } from './trabajos-pendientes/trabajos-pendientes.component';
 import { EditarCotizacionComponent } from './editar-cotizacion/editar-cotizacion.component';
-import { HistorialComponent } from './historial/historial.component'; // Importa el módulo HttpClientModule
+import { HistorialComponent } from './historial/historial.component';
+import { FavsComponent } from './favs/favs.component';
+import { ArchivedComponent } from './archived/archived.component'; // Importa el módulo HttpClientModule
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { HistorialComponent } from './historial/historial.component'; // Importa
     CotizacionComponent,
     TrabajosPendientesComponent,
     EditarCotizacionComponent,
-    HistorialComponent
+    HistorialComponent,
+    FavsComponent,
+    ArchivedComponent
   ],
   imports: [
     BrowserModule,

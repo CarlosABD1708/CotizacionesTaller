@@ -18,7 +18,6 @@
     <div class="container mt-5">
         <div class="text-center">
             <h1>Editar Proyecto</h1>
-
         </div>
 
         <form (ngSubmit)="editarCotizacion(id_cotizacion)" #cotizacionForm="ngForm">
@@ -29,29 +28,33 @@
             </div>
 
             <div class="mb-3">
+                <label for="tipoProyecto">Estado del proyecto</label>
+                <select class="form-control" [(ngModel)]="cotizacion.estado" name="estado" required>
+                    <option *ngFor="let item of estado.estados; let i = index" value="{{item}}"> {{item}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="tipoProyecto">Area Solicitante</label>
+                <select class="form-control" [(ngModel)]="cotizacion.area_solicitante" name="areaSolicitante" required>
+                    <option *ngFor="let item of area.areas; let i = index" value="{{item}}"> {{item}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
                 <label for="solicitante">Solicitante</label>
                 <input type="tel" id="solicitante" class="form-control" [(ngModel)]="cotizacion.solicitante"
                     name="solicitante" required>
             </div>
 
             <div class="mb-3">
-                <label for="tipoProyecto">Tipo de Proyecto</label>
-                <select class="form-control" [(ngModel)]="cotizacion.tipoProyecto" name="tipoProyecto" required>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
+                <label for="proyectoAsociado">Proyecto Asociado</label>
+                <select class="form-control" [(ngModel)]="cotizacion.proyectoAsociado" name="proyectoAsociado" required>
+                    <option *ngFor="let item of proyectos.proyectos" value="{{item}}"> {{item}} </option>
                 </select>
             </div>
-
-            <div class="mb-3">
-                <label for="tipoProyecto">Estado del proyecto</label>
-                <select class="form-control" [(ngModel)]="cotizacion.estado" name="estado" required>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
-            </div>
-
 
             <div class="mb-3">
                 <label for="descripcionProblema">Descripción del Requerimiento:</label>
@@ -66,9 +69,10 @@
             </div>
 
             <div class="mb-3">
-                <label for="Rnombre">Responsable del Equipo AE</label>
-                <input type="text" id="Rnombre" class="form-control" [(ngModel)]="cotizacion.responsableAE"
-                    name="Rnombre" required>
+                <label for="responsableAE">Responsable del Equipo AE</label>
+                <select class="form-control" [(ngModel)]="cotizacion.responsableAE" name="responsableAE" required>
+                    <option *ngFor="let item of responsables.responsables" value="{{item}}"> {{item}} </option>
+                </select>
             </div>
 
             <div class="mb-3">
@@ -78,7 +82,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="fecha_entrega">Fecha de Solicitud:</label>
+                <label for="fecha_entrega">Fecha de Entrega:</label>
                 <input type="date" id="fecha_entrega" class="form-control" [(ngModel)]="cotizacion.fecha_entrega"
                     name="fecha_entrega" required>
             </div>

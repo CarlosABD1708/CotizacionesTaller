@@ -58,6 +58,13 @@ export class CotizadorService {
     return this.http.get(url);
   }
 
+  get_data_cotizacion(id_cotizacion: string | undefined): Observable<any> {
+    const id_usuario = localStorage.getItem('id');
+    const url = this.baseUrl + `show_cotizaciones_data?id=${id_usuario}&cotizacion=${id_cotizacion}`;
+    return this.http.get(url);
+  }
+
+
   get_attr(attr: string): Observable<any> {
     const id_usuario = localStorage.getItem('id');
     const url = this.baseUrl + `show_attr?id=${id_usuario}&attr=${attr}`;
@@ -74,6 +81,11 @@ export class CotizadorService {
     const id_usuario = localStorage.getItem('id');
     const url = this.baseUrl + `delete_attr?id=${id_usuario}&id_cotizacion=${id_cotizacion}&attr=${attr}`;
     return this.http.delete(url);
+  }
+
+  get_catalogo(catalogo: string) {
+    const url = this.baseUrl + `get_catalogo?catalogo=${catalogo}`;
+    return this.http.get(url);
   }
 
 
