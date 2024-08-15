@@ -12,9 +12,15 @@ import { PrincipalComponent } from './principal/principal.component';
 import { CotizacionComponent } from './cotizacion/cotizacion.component';
 import { TrabajosPendientesComponent } from './trabajos-pendientes/trabajos-pendientes.component';
 import { EditarCotizacionComponent } from './editar-cotizacion/editar-cotizacion.component';
-import { HistorialComponent } from './historial/historial.component';
+import { SidebarComponent } from './home/modules/sidebar/sidebar.component';
+import { HeaderComponent } from './home/components/header/header.component';
+import { MenuComponent } from './principal/components/menu/menu.component';
+import { HomepageComponent } from './principal/homepage/homepage.component';
+import { LayoutComponent } from './home/components/layout/layout.component'; // Importa el módulo HttpClientModule
 import { FavsComponent } from './favs/favs.component';
-import { ArchivedComponent } from './archived/archived.component'; // Importa el módulo HttpClientModule
+import { HistorialComponent } from './historial/historial.component';
+import { ArchivadosComponent } from './archivados/archivados.component';
+import { ArchivedComponent } from './archived/archived.component';
 
 
 @NgModule({
@@ -27,9 +33,15 @@ import { ArchivedComponent } from './archived/archived.component'; // Importa el
     CotizacionComponent,
     TrabajosPendientesComponent,
     EditarCotizacionComponent,
-    HistorialComponent,
+    SidebarComponent,
+    HeaderComponent,
+    MenuComponent,
+    HomepageComponent,
+    LayoutComponent,
     FavsComponent,
-    ArchivedComponent
+    HistorialComponent,
+    ArchivedComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -40,7 +52,7 @@ import { ArchivedComponent } from './archived/archived.component'; // Importa el
   providers: [AuthService],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
 
-  
+
 }

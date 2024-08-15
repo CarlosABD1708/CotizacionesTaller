@@ -112,12 +112,12 @@ def add_attr():
         f'cotizaciones.{cotizacion}.{attr}': True
     })
 
-    return {'message': 'Éxito'}
+    return {'message': 'Éxito'}     
 
 @app.route('/data/show_attr',methods=['GET'])
 def show_attr():
     id = request.args.get('id')
-    ref = db.collection('usuarios').document(id)
+    ref = db.collection('usuarios').document(id)    
     #Atributo Archivado o Favorito ....
     attr = request.args.get('attr')
     doc = ref.get()

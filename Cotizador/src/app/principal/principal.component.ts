@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component,  signal,OnInit } from '@angular/core';
+import { RouterLinkWithHref,RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-principal',
@@ -7,18 +7,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./principal.component.css']
 })
 export class PrincipalComponent {
+  //showBanner: boolean = false;
 
-  constructor(private route:Router){}
-  seccionActual: string = '';
-  valor_pendiente: string = 'Pendiente';
-  valor_listo: string = 'Listo';
-  cambiarSeccion(estado: string) {
-    this.seccionActual = estado;
-    
-
-  }
-
-  changuePage(pagina: string) {
-    this.route.navigate(['/' + pagina])
-  }
 }

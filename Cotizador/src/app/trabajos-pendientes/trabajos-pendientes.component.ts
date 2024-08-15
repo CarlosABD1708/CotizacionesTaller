@@ -141,7 +141,7 @@ export class TrabajosPendientesComponent {
   showHistory(cotizacionKey: string) {
 
     // Navegar al nuevo componente y pasar la cotizacionKey y los datos
-    this.router.navigate(['/viewHistory'], {
+    this.router.navigate(['/historial_cotizacion'], {
       queryParams: { id_cotizacion: cotizacionKey}
     });
     

@@ -1,0 +1,30 @@
+<div class="side-nav-content">
+  <ul class="nav-list" [ngClass]="{ 'nav-list-open': sideNavStatus }">
+    <li class="nav-list-item" [ngClass]="{ 'nav-list-item-open': sideNavStatus }">
+      <a [routerLink]="'/proyectos'" class="flex">
+        <div class="icon-container" [ngClass]="{ 'icon-container-open': !sideNavStatus }">
+          <i class="bi bi-graph-up"></i>
+        </div>
+        <span>Proyectos</span>
+      </a>
+    </li>
+
+    <li class="nav-list-item" [ngClass]="{ 'nav-list-item-open': sideNavStatus }">
+      <a [routerLink]="'/proyectos/agregar'" class="flex">
+        <div class="icon-container" [ngClass]="{ 'icon-container-open': !sideNavStatus }">
+          <i class="bi bi-journal-plus"></i>
+        </div>
+        <span>Agregar proyecto</span>
+      </a>
+    </li>
+
+    <li class="nav-list-item" [ngClass]="{ 'nav-list-item-open': sideNavStatus }">
+      <a [routerLink]="'/favoritos'" class="flex">
+        <div class="icon-container" [ngClass]="{ 'icon-container-open': !sideNavStatus }">
+          <i class="bi bi-star"></i>
+        </div>
+        <span>Favoritos</span>
+      </a>
+    </li>
+  </ul>
+</div>
