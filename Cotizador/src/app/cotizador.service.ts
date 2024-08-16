@@ -6,7 +6,7 @@ import { __param } from 'tslib';
   providedIn: 'root'
 })
 export class CotizadorService {
-  baseUrl = 'http://192.168.137.1:5000/data/';
+  baseUrl = 'http://192.168.137.1:5000/data/';  
   constructor(private http: HttpClient) { }
   private cotizacionesSubject = new BehaviorSubject<any>({ cotizaciones: [] });
   cotizaciones$ = this.cotizacionesSubject.asObservable();
@@ -40,10 +40,11 @@ export class CotizadorService {
     return this.http.put(this.baseUrl + `editar_estado?id_user=${id_usuario}&id_cotizacion=${id_cotizacion}`, {});
   }
 
-  edit_cotizacion(id_cotizacion: string | undefined, cotizacion: any = {}): Observable<any> {
+  edit_cotizacion(id_cotizacion: string | undefined, cotizacion: any = {},cambios: any = []): Observable<any> {
     const id_usuario = localStorage.getItem('id');
     const data = {
       id_usuario: id_usuario,
+      cambios: cambios,
       id_cotizacion : id_cotizacion,
       datos : cotizacion
     }

@@ -6,7 +6,7 @@ import { __param } from 'tslib';
   providedIn: 'root'
 })
 export class CotizadorService {
-  baseUrl = 'http://192.168.137.1:5000/data/';
+  baseUrl = 'http://192.168.137.1:5000/data/';  
   constructor(private http: HttpClient) { }
   private cotizacionesSubject = new BehaviorSubject<any>({ cotizaciones: [] });
   cotizaciones$ = this.cotizacionesSubject.asObservable();
@@ -19,8 +19,9 @@ export class CotizadorService {
     return this.http.post(this.baseUrl + 'add_cotizacion', data);
   }
 
-  show_cotizaciones(id_usuario: string | undefined): Observable<any> {
-    const url = this.baseUrl + `show_cotizaciones?id=${id_usuario}`;
+  show_cotizaciones(): Observable<any> {
+    const id = localStorage.getItem('id');
+    const url = this.baseUrl + `show_cotizaciones?id=${id}`;
     
     return this.http.get(url).pipe(
       catchError(error => {
@@ -39,10 +40,11 @@ export class CotizadorService {
     return this.http.put(this.baseUrl + `editar_estado?id_user=${id_usuario}&id_cotizacion=${id_cotizacion}`, {});
   }
 
-  edit_cotizacion(id_cotizacion: string | undefined, cotizacion: any = {}): Observable<any> {
+  edit_cotizacion(id_cotizacion: string | undefined, cotizacion: any = {},cambios: any = []): Observable<any> {
     const id_usuario = localStorage.getItem('id');
     const data = {
       id_usuario: id_usuario,
+      cambios: cambios,
       id_cotizacion : id_cotizacion,
       datos : cotizacion
     }
@@ -51,5 +53,41 @@ export class CotizadorService {
 
   }
 
-  get_historial_cotizacion(id_cotizacion: string | undefined,)
-}
+  get_historial_cotizacion(id_cotizacion: string | undefined): Observable<any> {
+    const id_usuario = localStorage.getItem('id');
+    const url = this.baseUrl + `show_cotizaciones_historial?id=${id_usuario}&cotizacion=${id_cotizacion}`;
+    return this.http.get(url);
+  }
+
+  get_data_cotizacion(id_cotizacion: string | undefined): Observable<any> {
+    const id_usuario = localStorage.getItem('id');
+    const url = this.baseUrl + `show_cotizaciones_data?id=${id_usuario}&cotizacion=${id_cotizacion}`;
+    return this.http.get(url);
+  }
+
+
+  get_attr(attr: string): Observable<any> {
+    const id_usuario = localStorage.getItem('id');
+    const url = this.baseUrl + `show_attr?id=${id_usuario}&attr=${attr}`;
+    return this.http.get(url);  
+  }
+
+  add_attr(id_cotizacion: string,attr: string) {
+    const id_usuario = localStorage.getItem('id');
+    const url = this.baseUrl + `add_attr?id=${id_usuario}&id_cotizacion=${id_cotizacion}&attr=${attr}`;
+    return this.http.put(url, []);
+  }
+
+  delete_attr(id_cotizacion: string,attr:string) {
+    const id_usuario = localStorage.getItem('id');
+    const url = this.baseUrl + `delete_attr?id=${id_usuario}&id_cotizacion=${id_cotizacion}&attr=${attr}`;
+    return this.http.delete(url);
+  }
+
+  get_catalogo(catalogo: string) {
+    const url = this.baseUrl + `get_catalogo?catalogo=${catalogo}`;
+    return this.http.get(url);
+  }
+
+
+ }

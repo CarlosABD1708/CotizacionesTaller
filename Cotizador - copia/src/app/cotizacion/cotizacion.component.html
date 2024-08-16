@@ -1,77 +1,103 @@
 <!DOCTYPE html>
 <html lang="es" ng-app="cotizadorApp">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Cotizador de Taller de Celulares</title>
+    <title>Agregar Proyecto</title>
     <!-- Enlaces a Bootstrap CSS y Angular JS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 </head>
+
 <body ng-controller="CotizacionController">
 
-<!-- Contenedor Principal -->
-<!-- tu-componente.component.html -->
+    <!-- Contenedor Principal -->
+    <!-- tu-componente.component.html -->
 
-<div class="container mt-5">
-    <div class="text-center">
-        <h1>Cotizador de Taller de Celulares</h1>
+    <div class="container mt-5">
+        <div class="text-center">
+            <h1>Agregar Nuevo Proyecto</h1>
+        </div>
+
+        <form (ngSubmit)="agregarCotizacion()" #cotizacionForm="ngForm">
+
+            <div class="mb-3">
+                <label for="nombre">Nombre del Proyecto</label>
+                <input type="text" id="nombre" class="form-control" [(ngModel)]="cotizacion.nombre" name="nombre"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label for="tipoProyecto">Area Solicitante</label>
+                <select class="form-control" [(ngModel)]="cotizacion.area_solicitante" name="areaSolicitante" required>
+                    <option *ngFor="let item of area.areas; let i = index" value="{{item}}"> {{item}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="solicitante">Solicitante</label>
+                <input type="tel" id="solicitante" class="form-control" [(ngModel)]="cotizacion.solicitante"
+                    name="solicitante" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="proyectoAsociado">Proyecto Asociado</label>
+                <select class="form-control" [(ngModel)]="cotizacion.proyectoAsociado" name="proyectoAsociado" required>
+                    <option *ngFor="let item of proyectos.proyectos" value="{{item}}"> {{item}} </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="descripcionProblema">Descripción del Requerimiento:</label>
+                <textarea id="descripcionProblema" class="form-control" [(ngModel)]="cotizacion.descripcionProblema"
+                    name="descripcionProblema" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="integrantes">Integrantes:</label>
+                <input type="text" id="integrantes" class="form-control" [(ngModel)]="cotizacion.integrantes"
+                    name="integrantes" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="responsableAE">Responsable del Equipo AE</label>
+                <select class="form-control" [(ngModel)]="cotizacion.responsableAE" name="responsableAE" required>
+                    <option *ngFor="let item of responsables.responsables" value="{{item}}"> {{item}} </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="observaciones">Observaciones</label>
+                <input type="textarea" id="observaciones" class="form-control" [(ngModel)]="cotizacion.observaciones"
+                    name="observaciones" required>
+            </div>
+            <div class="mb-3">
+                <label for="fecha_entrega">Fecha de Solicitud:</label>
+                <input type="date" id="fecha_solicitud" class="form-control" [(ngModel)]="cotizacion.fecha_solicitud"
+                    name="fecha_entrega" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="fecha_entrega">Fecha de Entrega:</label>
+                <input type="date" id="fecha_entrega" class="form-control" [(ngModel)]="cotizacion.fecha_entrega"
+                    name="fecha_entrega" required>
+            </div>
+            <div class="mb-3">
+                <label for="fecha_finalizcion">Fecha Estimada de Finalizacion </label>
+                <input type="date" id="fecha_finalizcion" class="form-control" [(ngModel)]="cotizacion.fecha_fin"
+                    name="fecha_finalizcion" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar Proyecto</button>
+
+        </form>
     </div>
 
-    <form (ngSubmit)="agregarCotizacion()" #cotizacionForm="ngForm">
 
-        <div class="mb-3">
-            <label for="nombre">Nombre del Cliente:</label>
-            <input type="text" id="nombre" class="form-control" [(ngModel)]="cotizacion.nombre" name="nombre" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" class="form-control" [(ngModel)]="cotizacion.telefono" name="telefono" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Tipo de Cotizacion:</label>
-            <select class="form-control" [(ngModel)]="cotizacion.tipoCotizacion" name="tipoCotizacion" required>
-                <option value="Servicio">Servicio</option>
-                <option value="Reparacion">Reparación</option>
-                <option value="Diagnostico">Diagnostico</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="descripcionProblema">Descripción del Problema:</label>
-            <textarea id="descripcionProblema" class="form-control" [(ngModel)]="cotizacion.descripcionProblema" name="descripcionProblema" required></textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="modeloTelefono">Modelo del Teléfono:</label>
-            <input type="text" id="modeloTelefono" class="form-control" [(ngModel)]="cotizacion.modeloTelefono" name="modeloTelefono" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="montoInicial">Monto Inicial Estimado:</label>
-            <input type="number" id="montoInicial" class="form-control" [(ngModel)]="cotizacion.montoInicial" name="montoInicial" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="montoInicial">Adelanto:</label>
-            <input type="number" id="adelanto" class="form-control" [(ngModel)]="cotizacion.adelanto" name="adelanto" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="montoInicial">Fecha de entrega:</label>
-            <input type="date" id="fecha_entrega" class="form-control" [(ngModel)]="cotizacion.fecha_entrega" name="fecha_entrega" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Agregar Cotización</button>
-
-    </form>
-</div>
-
-
-<!-- Enlaces a Bootstrap JS (jQuery y Popper.js son necesarios para algunas funcionalidades) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Enlaces a Bootstrap JS (jQuery y Popper.js son necesarios para algunas funcionalidades) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

@@ -208,7 +208,9 @@ def edit_cotizacion():
 
         id_cotizacion = data['id_cotizacion']
         id_usuario = data['id_usuario']
+        cambios = data['cambios']
         nuevos_datos = data['datos']
+
 
         logging.debug(f"id_cotizacion: {id_cotizacion}, id_usuario: {id_usuario}, nuevos_datos: {nuevos_datos}")
 
@@ -234,7 +236,8 @@ def edit_cotizacion():
         # Agregar fecha de cambio a los datos antiguos
         historial.append({
             'fecha_cambio': datetime.utcnow(),  # Fecha y hora actuales en formato UTC
-            'data': ref_data
+            'data': ref_data,
+            'cambios': cambios
         })
 
         # Actualizar los datos de la cotización

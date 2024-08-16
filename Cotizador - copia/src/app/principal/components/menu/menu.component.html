@@ -1,0 +1,7 @@
+<div class="grid grid-cols-4 gap-2 mt-1 max-w-screen-lg mx-auto">
+  <ng-container *ngFor="let option of menu(); let i = index">
+      <app-homepage
+          [principal]="option"
+      />
+  </ng-container>
+</div>
